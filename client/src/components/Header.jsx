@@ -8,9 +8,15 @@ export default function Header() {
           <h1 className="font-bold text-xl">MERN Auth</h1>
         </Link>
         <ul className="flex gap-4">
-          <li>Home</li>
-          <li>About</li>
-          <li>Login</li>
+          <Link to="/">
+            <li>Home</li>
+          </Link>
+          <Link to="/about">
+            <li>About</li>
+          </Link>
+          <Link to="/login">
+            <li>Login</li>
+          </Link>
         </ul>
       </div>
     </div>
