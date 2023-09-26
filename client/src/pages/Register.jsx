@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signUpRoute } from "../utils/APIRoutes";
 
 function Register() {
@@ -9,6 +9,7 @@ function Register() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -24,9 +25,11 @@ function Register() {
       const data = await res.json();
 
       setLoading(false);
-      if (!data.success) {
+      if (data.success === false) {
         setError(true);
+        return;
       }
+      navigate("/login");
     } catch (error) {
       setLoading(false);
       setError(true);
