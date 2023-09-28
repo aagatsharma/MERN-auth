@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpRoute } from "../utils/APIRoutes";
+import OAuth from "../components/OAuth";
 
 function Register() {
   const [formData, setFormData] = useState({});
@@ -68,6 +69,7 @@ function Register() {
         >
           {loading ? "Loading..." : "Register"}
         </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>

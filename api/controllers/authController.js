@@ -38,3 +38,42 @@ export const signIn = async (req, res, next) => {
     next(error);
   }
 };
+
+export const google = async (req, res, next) => {
+  const { name, email, photo } = req.body;
+  try {
+    const validUser = await User.findOne({ email });
+    if (validUser) {
+      const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      });
+      const validUserObject = validUser.toObject();
+      delete validUserObject.password;
+      res.cookie("access_token", token).status(200).json(validUserObject);
+    } else {
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+      const newUser = new User({
+        username:
+          name.split(" ").join("").toLowerCase() +
+          Math.floor(Math.random() * 10000).toString(),
+        email,
+        password: hashedPassword,
+        profilePicture: photo,
+      });
+      await newUser.save();
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      });
+
+      const newUserObject = newUser.toObject();
+
+      delete newUserObject.password;
+      res.cookie("access_token", token).status(200).json(newUserObject);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
