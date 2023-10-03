@@ -1,7 +1,7 @@
-const host = `http://localhost:3000`;
+export const signUpRoute = `/api/auth/signup`;
 
-export const signUpRoute = `${host}/api/auth/signup`;
+export const signInRoute = `/api/auth/signin`;
 
-export const signInRoute = `${host}/api/auth/signin`;
+export const googleRoute = `/api/auth/google`;
 
-export const googleRoute = `${host}/api/auth/google`;
+export const updateUserRoute = `/api/user/update`;
